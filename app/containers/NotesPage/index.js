@@ -50,7 +50,8 @@ export function NotesPage(props) {
   const { notes, archivedNotes, pinnedNotes, notesPage } = props;
 
   const urlparams = new URLSearchParams(props.history.location.search);
-  useEffect(() => {
+
+  const getData = () => {
     let data = notes;
     let pinnedData = pinnedNotes;
     if (urlparams.get('type') === 'archives') {
@@ -83,41 +84,14 @@ export function NotesPage(props) {
     }
     setData(data);
     setPinnedData(pinnedData);
+  }
+
+  useEffect(() => {
+    getData();
   }, []);
 
   useEffect(() => {
-    let data = notes;
-    let pinnedData = pinnedNotes;
-    if (urlparams.get('type') === 'archives') {
-      data = archivedNotes;
-      setPageType('archivedNotes');
-      pinnedData = [];
-    }
-    if (urlparams.get('type') === 'pinned') {
-      data = pinnedNotes;
-      setPageType('pinnedNotes');
-      pinnedData = [];
-    }
-    if (urlparams.get('search')) {
-      const searchText = urlparams.get('search');
-      const alldata = [...notes, ...archivedNotes, ...pinnedNotes];
-      data = alldata.filter((item) => {
-        if (item.content.toLowerCase().indexOf(searchText.toLowerCase()) !== -1 || item.title.toLowerCase().indexOf(searchText.toLowerCase()) !== -1) {
-          return true;
-        }
-        return false;
-      });
-      if (urlparams.get('type') === 'archives' || urlparams.get('type') === 'pinned') {
-        props.history.push({
-          pathname: props.history.location.pathname,
-          search: `?search=${searchText}`
-        })
-      }
-      setPageType('all');
-      pinnedData = [];
-    }
-    setPinnedData(pinnedData);
-    setData(data);
+    getData();
   }, [notesPage, notes, archivedNotes, pinnedNotes, props.history.location])
 
   const onSave = (title, content, isArchived, isPinned) => {
