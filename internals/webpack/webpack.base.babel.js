@@ -12,7 +12,7 @@ module.exports = options => ({
     {
       // Compile into js/build.js
       path: path.resolve(process.cwd(), 'build'),
-      publicPath: '/',
+      publicPath: '/notes-app-dev/',
     },
     options.output,
   ), // Merge with env dependent settings

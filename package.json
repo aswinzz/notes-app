@@ -1,6 +1,7 @@
 {
   "name": "notes-application",
   "version": "4.0.0",
+  "homepage": "https://aswinvb.com/notes-app-dev",
   "description": "Notes Application",
   "engines": {
     "npm": ">=5",
